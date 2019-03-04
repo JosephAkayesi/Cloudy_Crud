@@ -1,19 +1,31 @@
 const express = require("express");
 const app = express();
-const hbs = require("express-handlebars");
+const expbs = require("express-handlebars");
 const bodyParser = require("body-parser");
 const upload = require("./handlers/multer");
 const cloudinary = require("cloudinary");
 const path = require("path");
+const moment = require("moment")
 
 require("dotenv").config();
 require("./handlers/cloudinary");
 
+const hbs = expbs.create({
+  defaultLayout: "main",
+
+  //helpers
+  helpers: {
+    renderDateFormat: function (time) {
+      return moment(time).format('MMMM Do YYYY, h:mm:ss a')
+    }
+  }
+
+})
 // Middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.engine("handlebars", hbs({ defaultLayout: "main" }));
+app.engine("handlebars", hbs.engine);
 app.set("view engine", "handlebars");
 
 //Static folder
