@@ -19,8 +19,8 @@ const hbs = expbs.create({
       return moment(time).format('MMMM Do YYYY, h:mm:ss a')
     }
   }
-
 })
+
 // Middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -37,7 +37,6 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
-
 // @route POST /upload
 // @desc  Uploads file to Cloudinary
 app.post("/uploads", upload.single("image"), async (req, res) => {
@@ -48,8 +47,8 @@ app.post("/uploads", upload.single("image"), async (req, res) => {
 });
 
 
-// @route GET /api/files - Api
-// @desc  Display all files in JSON
+// @route GET /files
+// @desc  Display all files
 app.get("/files", async (req, res) => {
   const images = await cloudinary.v2.api.resources({
     type: "upload",
@@ -84,7 +83,6 @@ app.get("/api/files", async (req, res) => {
 
   // Files exist
   return res.json(images);
-  // console.log(images);
 });
 
 // @route GET /files
